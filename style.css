@@ -1,0 +1,372 @@
+/* ============================================================
+   NEON DISTRICT — token system
+   ============================================================ */
+:root {
+  --void:        #05060c;
+  --haze:        #1c1433;
+  --haze-2:      #120c24;
+  --fog:         rgba(178, 155, 255, 0.07);
+
+  --magenta:     #ff3d81;
+  --cyan:        #26e6ff;
+  --amber:       #ffb545;
+  --purple:      #9d6bff;
+
+  --text:        #e9e7f7;
+  --text-dim:    #9691bd;
+
+  --font-display: 'Audiowide', cursive;
+  --font-body:    'Rajdhani', sans-serif;
+  --font-mono:    'Share Tech Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  font-weight: 500;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  color: var(--text-dim);
+  margin-bottom: 0.75rem;
+}
+
+/* subtle CRT scanline overlay across the whole page */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.025) 0px,
+    rgba(255,255,255,0.025) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: overlay;
+  opacity: 0.5;
+}
+
+/* ============================================================
+   HERO PARALLAX SCENE
+   ============================================================ */
+.scene {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #0a0620 0%, #170f33 45%, #05060c 100%);
+  box-shadow: 0 60px 80px -20px black;
+}
+
+.layer {
+  position: absolute;
+  left: 0;
+  top: -45%;
+  width: 100%;
+  height: 190%;
+  will-change: transform;
+}
+
+/* LAYER 1 — back: sky glow, moon, distant skyline */
+.layer-1 {
+  z-index: 1;
+  background:
+    radial-gradient(ellipse at 30% 30%, var(--fog) 0%, transparent 60%),
+    radial-gradient(ellipse at 75% 15%, rgba(255,61,129,0.06) 0%, transparent 55%);
+}
+
+.moon-disc {
+  position: absolute;
+  top: 22%;
+  right: 14%;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff5e0, var(--amber) 55%, transparent 75%);
+  box-shadow: 0 0 60px 20px rgba(255, 181, 69, 0.35);
+}
+
+.building {
+  position: absolute;
+  bottom: 0;
+  background: var(--haze);
+  border-top: 1px solid rgba(178,155,255,0.15);
+}
+
+.layer-1 .building { background: #150e2c; opacity: 0.9; }
+
+/* LAYER 2 — mid: lit buildings + neon signage */
+.layer-2 { z-index: 2; }
+
+.layer-2 .building { background: #0c0a1c; }
+
+.win {
+  background-image: radial-gradient(var(--dot,var(--amber)) 1.1px, transparent 1.6px);
+  background-size: 11px 16px;
+  background-position: 4px 6px;
+  background-color: #0a0818;
+  background-blend-mode: normal;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.6);
+}
+.win-amber { --dot: var(--amber); }
+.win-cyan  { --dot: var(--cyan); }
+
+/* --- neon signage (positioned within layer-2, which sits bottom: -45%) --- */
+.sign {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  padding: 0.35em 0.6em;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  animation: flicker 5s infinite;
+}
+.sign-magenta { color: var(--magenta); text-shadow: 0 0 8px var(--magenta); }
+.sign-cyan    { color: var(--cyan);    text-shadow: 0 0 8px var(--cyan); }
+.sign-amber   { color: var(--amber);   text-shadow: 0 0 8px var(--amber); }
+
+.sign-1 { top: 58%; left: 6%; }
+.sign-2 { top: 40%; left: 33%; animation-delay: 1.3s; }
+.sign-3 { top: 65%; left: 58%; animation-delay: 2.6s; }
+.sign-4 { top: 35%; left: 82%; animation-delay: 0.6s; }
+
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 54%, 56%, 100% { opacity: 1; }
+  20%, 22%, 55% { opacity: 0.35; }
+}
+
+/* --- drones (own drift animation nested inside the parallax layer) --- */
+.layer-3 { z-index: 3; }
+
+.drone {
+  position: absolute;
+  color: var(--cyan);
+  filter: drop-shadow(0 0 6px var(--cyan));
+  animation: drift 14s ease-in-out infinite;
+}
+.drone-1 { top: 18%; left: 12%; }
+.drone-2 { top: 45%; left: 70%; animation-duration: 18s; animation-delay: 2s; color: var(--magenta); filter: drop-shadow(0 0 6px var(--magenta)); }
+
+@keyframes drift {
+  0%   { transform: translate(0, 0); }
+  50%  { transform: translate(60px, -24px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* --- rain: continuous CSS fall, independent of scroll --- */
+.rain-fall {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    100deg,
+    rgba(200, 210, 255, 0.12) 0px,
+    rgba(200, 210, 255, 0.12) 1px,
+    transparent 1px,
+    transparent 40px
+  );
+  background-size: 100% 220%;
+  animation: fall 0.5s linear infinite;
+}
+
+@keyframes fall {
+  0%   { background-position: 0 -100%; }
+  100% { background-position: 0 0%; }
+}
+
+/* --- hero copy --- */
+.hero-copy {
+  position: absolute;
+  z-index: 20;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 90%;
+  max-width: 900px;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 8vw, 5.5rem);
+  line-height: 1.1;
+  letter-spacing: 0.05em;
+  color: #fff;
+  text-shadow:
+    0 0 6px #fff,
+    0 0 18px var(--magenta),
+    0 0 42px var(--magenta),
+    0 0 2px var(--cyan);
+  animation: neon-flicker 6s infinite;
+}
+
+@keyframes neon-flicker {
+  0%, 3%, 6%, 100% { opacity: 1; }
+  4%  { opacity: 0.4; }
+  5%  { opacity: 0.85; }
+}
+
+.hero-sub {
+  margin-top: 1.25rem;
+  color: var(--text-dim);
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+}
+
+.scroll-cue {
+  margin: 2.5rem auto 0;
+  width: 26px;
+  height: 42px;
+  border: 2px solid var(--text-dim);
+  border-radius: 14px;
+  position: relative;
+}
+.scroll-cue span {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  width: 4px;
+  height: 8px;
+  background: var(--cyan);
+  border-radius: 2px;
+  transform: translateX(-50%);
+  animation: scroll-cue-move 1.6s ease-in-out infinite;
+}
+@keyframes scroll-cue-move {
+  0%   { top: 6px; opacity: 1; }
+  70%  { top: 22px; opacity: 0.2; }
+  100% { top: 6px; opacity: 0; }
+}
+
+/* ============================================================
+   CONTENT — districts along the transit line
+   ============================================================ */
+.city {
+  position: relative;
+  background: var(--void);
+  padding: 6rem 6vw 4rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.transit-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 6vw;
+  width: 3px;
+  background: rgba(150, 145, 189, 0.2);
+}
+.transit-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: linear-gradient(to bottom, var(--magenta), var(--cyan), var(--amber), var(--purple));
+  box-shadow: 0 0 14px var(--cyan);
+  transition: height 0.1s linear;
+}
+
+.stop {
+  position: relative;
+  padding-left: 3.5rem;
+  padding-bottom: 8rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.stop.is-visible { opacity: 1; transform: translateY(0); }
+.stop:last-of-type { padding-bottom: 2rem; }
+
+.stop-marker {
+  position: absolute;
+  left: -0.72rem;
+  top: 0.2rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--void);
+  border: 2px solid var(--text-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+.stop.is-visible .stop-marker { box-shadow: 0 0 18px currentColor; }
+
+.stop-num {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+.stop.is-visible .stop-num { color: #fff; }
+
+.stop[data-accent="magenta"] .stop-marker { color: var(--magenta); }
+.stop[data-accent="cyan"]    .stop-marker { color: var(--cyan); }
+.stop[data-accent="amber"]   .stop-marker { color: var(--amber); }
+.stop[data-accent="purple"]  .stop-marker { color: var(--purple); }
+.stop.is-visible[data-accent="magenta"] .stop-marker { border-color: var(--magenta); }
+.stop.is-visible[data-accent="cyan"]    .stop-marker { border-color: var(--cyan); }
+.stop.is-visible[data-accent="amber"]   .stop-marker { border-color: var(--amber); }
+.stop.is-visible[data-accent="purple"]  .stop-marker { border-color: var(--purple); }
+
+.stop-content h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 400;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+.stop[data-accent="magenta"] h2 { text-shadow: 0 0 16px rgba(255,61,129,0.5); }
+.stop[data-accent="cyan"]    h2 { text-shadow: 0 0 16px rgba(38,230,255,0.5); }
+.stop[data-accent="amber"]   h2 { text-shadow: 0 0 16px rgba(255,181,69,0.5); }
+.stop[data-accent="purple"]  h2 { text-shadow: 0 0 16px rgba(157,107,255,0.5); }
+
+.stop-content p {
+  color: var(--text-dim);
+  max-width: 60ch;
+  margin-bottom: 1rem;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.terminus {
+  text-align: center;
+  padding: 5rem 6vw 6rem;
+  background: linear-gradient(to bottom, var(--void), #0a0714);
+}
+.terminus-text { color: var(--text-dim); font-size: 1.05rem; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 800px) {
+  .drone, .sign-3, .sign-4 { display: none; }
+  .hero-title { letter-spacing: 0.02em; }
+  .city { padding-left: 4vw; padding-right: 4vw; }
+  .transit-line { left: 4vw; }
+  .stop { padding-left: 2.75rem; padding-bottom: 5.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sign, .hero-title, .drone, .rain-fall, .scroll-cue span {
+    animation: none !important;
+  }
+  .stop { transition: none; }
+  html { scroll-behavior: auto; }
+}
