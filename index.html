@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neon District — Parallax City</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cybercity.css">
+</head>
+<body>
+
+<div class="scanlines" aria-hidden="true"></div>
+
+<!-- ============ HERO PARALLAX SCENE ============ -->
+<section class="scene" id="scene">
+
+  <!-- LAYER 1: back — sky, moon, distant skyline (slowest) -->
+  <div class="layer layer-1" data-speed="0.1">
+    <div class="moon-disc"></div>
+    <div class="building" style="left:2%;  width:7%;  height:38%; clip-path:polygon(0 100%,0 20%,50% 0,100% 20%,100% 100%);"></div>
+    <div class="building" style="left:9%;  width:9%;  height:52%;"></div>
+    <div class="building" style="left:19%; width:6%;  height:30%; clip-path:polygon(0 100%,0 10%,100% 10%,100% 100%,60% 100%,60% 0,40% 0,40% 100%);"></div>
+    <div class="building" style="left:27%; width:11%; height:60%;"></div>
+    <div class="building" style="left:40%; width:8%;  height:42%; clip-path:polygon(0 100%,0 25%,50% 5%,100% 25%,100% 100%);"></div>
+    <div class="building" style="left:50%; width:10%; height:55%;"></div>
+    <div class="building" style="left:62%; width:7%;  height:34%;"></div>
+    <div class="building" style="left:71%; width:12%; height:64%; clip-path:polygon(0 100%,0 15%,35% 15%,35% 0,65% 0,65% 15%,100% 15%,100% 100%);"></div>
+    <div class="building" style="left:86%; width:9%;  height:44%;"></div>
+  </div>
+
+  <!-- LAYER 2: mid — lit buildings + neon signage -->
+  <div class="layer layer-2" data-speed="0.28">
+    <div class="building win win-amber"  style="left:1%;  width:12%; height:46%;"></div>
+    <div class="building win win-cyan"   style="left:14%; width:9%;  height:66%;"></div>
+    <div class="building win win-amber"  style="left:25%; width:14%; height:34%;"></div>
+    <div class="building win win-cyan"   style="left:41%; width:10%; height:58%;"></div>
+    <div class="building win win-amber"  style="left:53%; width:13%; height:40%;"></div>
+    <div class="building win win-cyan"   style="left:68%; width:11%; height:70%;"></div>
+    <div class="building win win-amber"  style="left:81%; width:15%; height:48%;"></div>
+    <span class="sign sign-magenta sign-1">NOODLES</span>
+    <span class="sign sign-cyan sign-2">OPEN&nbsp;24H</span>
+    <span class="sign sign-amber sign-3">SYNTH&nbsp;BAR</span>
+    <span class="sign sign-magenta sign-4">DATA</span>
+  </div>
+
+  <!-- LAYER 3: front — drones + rain (fastest, closest) -->
+  <div class="layer layer-3" data-speed="0.45">
+    <div class="drone drone-1">
+      <svg viewBox="0 0 60 24" width="60" height="24"><rect x="4" y="9" width="52" height="6" rx="3" fill="currentColor"/><circle cx="12" cy="6" r="4" fill="currentColor"/><circle cx="48" cy="6" r="4" fill="currentColor"/><circle cx="12" cy="18" r="4" fill="currentColor"/><circle cx="48" cy="18" r="4" fill="currentColor"/></svg>
+    </div>
+    <div class="drone drone-2">
+      <svg viewBox="0 0 60 24" width="40" height="16"><rect x="4" y="9" width="52" height="6" rx="3" fill="currentColor"/><circle cx="12" cy="6" r="4" fill="currentColor"/><circle cx="48" cy="6" r="4" fill="currentColor"/><circle cx="12" cy="18" r="4" fill="currentColor"/><circle cx="48" cy="18" r="4" fill="currentColor"/></svg>
+    </div>
+    <div class="rain-fall"></div>
+  </div>
+
+  <div class="hero-copy">
+    <p class="eyebrow">SECTOR 09 // NIGHT CYCLE</p>
+    <h1 class="hero-title" data-text="NEON DISTRICT">NEON<br>DISTRICT</h1>
+    <p class="hero-sub">The grid never sleeps. Scroll to walk it.</p>
+    <div class="scroll-cue" aria-hidden="true"><span></span></div>
+  </div>
+</section>
+
+<!-- ============ CONTENT: DISTRICTS ALONG THE TRANSIT LINE ============ -->
+<main class="city">
+
+  <div class="transit-line" aria-hidden="true">
+    <div class="transit-fill" id="transitFill"></div>
+  </div>
+
+  <article class="stop" data-accent="magenta" id="stop-01">
+    <div class="stop-marker"><span class="stop-num">01</span></div>
+    <div class="stop-content">
+      <p class="eyebrow">FIRST STOP</p>
+      <h2>Noodle&nbsp;Row</h2>
+      <p>Steam curls off street carts under a ceiling of cable and signage. Broth prices flicker with the currency exchange, updated every few minutes by vendors who trust the market more than the weather. Nobody here asks where the meat came from.</p>
+      <p>By 2 a.m. the row is louder than daylight ever gets — bowls clacking, static radio, a dozen dialects arguing over the last table.</p>
+    </div>
+  </article>
+
+  <article class="stop" data-accent="cyan" id="stop-02">
+    <div class="stop-marker"><span class="stop-num">02</span></div>
+    <div class="stop-content">
+      <p class="eyebrow">SECOND STOP</p>
+      <h2>The&nbsp;Data&nbsp;Spire</h2>
+      <p>Ninety floors of leased server racks cool themselves with river water pumped up through the building's spine. Couriers ride the service elevators with drives instead of packages. Nobody who works here has seen the penthouse — that floor answers to different owners entirely.</p>
+      <p>At night the spire's cooling vents fog the lower windows, so from the street it looks like the building is breathing.</p>
+    </div>
+  </article>
+
+  <article class="stop" data-accent="amber" id="stop-03">
+    <div class="stop-marker"><span class="stop-num">03</span></div>
+    <div class="stop-content">
+      <p class="eyebrow">THIRD STOP</p>
+      <h2>The&nbsp;Underbelly</h2>
+      <p>Below the transit deck, sunlight is a rumor. Shops here run on generators and reputation, trading parts, favors, and information in roughly equal measure. The rules are simpler underground: pay what you owe, and don't ask a vendor where they slept last.</p>
+      <p>Half the district's rumors start in this half-mile of tunnel — and most of them turn out true.</p>
+    </div>
+  </article>
+
+  <article class="stop" data-accent="purple" id="stop-04">
+    <div class="stop-marker"><span class="stop-num">04</span></div>
+    <div class="stop-content">
+      <p class="eyebrow">FOURTH STOP</p>
+      <h2>Skyline&nbsp;Exchange</h2>
+      <p>The exchange floor sits on a rooftop garden nobody waters — the plants are synthetic, kept for the view they give the traders below. Fortunes here move at the speed of light between towers, decided by people who never once look up from the glass.</p>
+      <p>From this height the whole district is just light: a circuit board with a few million tenants wired into it.</p>
+    </div>
+  </article>
+
+</main>
+
+<footer class="terminus">
+  <p class="eyebrow">END OF LINE</p>
+  <p class="terminus-text">Terminus reached. The district goes quiet — until the next cycle.</p>
+</footer>
+
+<script src="cybercity.js"></script>
+</body>
+</html>
